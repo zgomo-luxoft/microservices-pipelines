@@ -13,13 +13,13 @@ pipeline {
             sh 'echo "performance test"'
           }
         }
-        stage('') {
+        stage('reg') {
           steps {
             sh 'echo "regression test"'
           }
         }
 
-        stage('') {
+        stage('sec') {
           steps {
             sh 'echo "security checks test"'
           }
