@@ -1,0 +1,31 @@
+pipeline {
+  agent any
+  stages {
+    stage('build svc-app1') {
+      steps {
+        sh 'echo "build-app-1"'
+      }
+    }
+    stage('test') {
+      parallel {
+        stage('test') {
+          steps {
+            sh 'echo "performance test"'
+          }
+        }
+        stage('reg') {
+          steps {
+            sh 'echo "regression test"'
+          }
+        }
+
+        stage('sec') {
+          steps {
+            sh 'echo "security checks test"'
+          }
+        }
+ 
+      }
+    }
+  }
+}
