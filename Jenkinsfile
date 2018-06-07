@@ -18,13 +18,16 @@ pipeline {
             sh 'echo "regression test"'
           }
         }
-
         stage('sec') {
           steps {
             sh 'echo "security checks test"'
           }
         }
- 
+      }
+    }
+    stage('build-services') {
+      steps {
+        build 'mlp-build-app0'
       }
     }
   }
