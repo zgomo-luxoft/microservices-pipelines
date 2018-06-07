@@ -1,5 +1,7 @@
 pipeline {
   agent any
+  triggers { upstream(upstreamProjects: 'mlp-build-all', threshold: hudson.model.Result.SUCCESS) }
+
   stages {
     stage('build svc-app1') {
       steps {
