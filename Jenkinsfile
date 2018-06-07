@@ -18,6 +18,13 @@ pipeline {
             sh 'echo "regression test"'
           }
         }
+
+        stage('') {
+          steps {
+            sh 'echo "security checks test"'
+          }
+        }
+ 
       }
     }
   }
