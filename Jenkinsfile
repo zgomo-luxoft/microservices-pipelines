@@ -25,10 +25,5 @@ pipeline {
         }
       }
     }
-    stage('build-services') {
-      steps {
-        build(job: 'mlp-build-app0', propagate: true)
-      }
-    }
   }
 }
