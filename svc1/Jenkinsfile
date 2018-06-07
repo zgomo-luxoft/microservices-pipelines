@@ -3,7 +3,7 @@ pipeline {
   triggers { upstream(upstreamProjects: 'mlp-build-all', threshold: hudson.model.Result.SUCCESS) }
 
   stages {
-    stage('build svc-app1') {
+    stage('build svc-app-1') {
       steps {
         sh 'echo "build-app-1"'
       }
