@@ -14,20 +14,35 @@ pipeline {
       parallel {
         stage('test') {
           steps {
-            sh 'echo "performance test"'
+            sh 'echo "mvn component-test"'
           }
         }
-        stage('reg') {
-          steps {
-            sh 'echo "regression test"'
-          }
-        }
-        stage('sec') {
-          steps {
-            sh 'echo "security checks test"'
-          }
-        }
-      }
+     }
     }
+   	stage('quality-checks'){
+		parallel {
+			stage('static-code-analysis'){
+					steps{
+						sh 'echo "static code analysis" '
+					}
+
+			}
+
+			stage('stylechecks'){
+					steps{
+						sh 'echo "Execute checkstyle" '
+					}
+			}
+
+			stage('security checks'){
+					steps{
+						sh 'echo "Execute security checks" '
+					}
+			}
+
+
+		}
+	
+	}
   }
 }
