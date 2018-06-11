@@ -3,13 +3,65 @@ pipeline {
   stages {
     stage('build') {
       steps {
-		script {
-			pipelines/feature
-		}
-
+        sh 'echo "mvn clean install"'
+		sh 'echo "mvn clean test, component test"' 
+		sh 'echo "mvn deploy"' 
       }
 
 
     }
+    stage('test') {
+      parallel {
+        stage('test') {
+          steps {
+            sh 'echo "mvn component-test"'
+          }
+        }
+     }
+    }
+   	stage('quality-checks'){
+		parallel {
+			stage('static-code-analysis'){
+					steps{
+						sh 'echo "static code analysis" '
+					}
+
+			}
+
+			stage('stylechecks'){
+					steps{
+						sh 'echo "Execute checkstyle" '
+					}
+			}
+
+			stage('security checks'){
+					steps{
+						sh 'echo "Execute security checks" '
+					}
+			}
+
+
+		}
+	
+	}
+  	stage('publish test results'){
+		parallel {
+			stage("publish-git-lfs"){ steps{ sh 'echo "publishing to git lfs"'} }
+			stage("publish-elastic-search"){ steps{ sh 'echo "publishing to ELK"'} }
+		}
+
+	}
+	stage('package'){
+		parallel{
+			stage("package for ansible"){ steps { 
+					sh 'echo "pkg config"'
+					sh 'echo "pkg app binaries"'
+				} 
+			}
+			stage("package for lfs"){ steps {sh 'echo "pkg app git-lfs"'} }
+			stage("package for artefactory"){ sh 'echo "pkg for artefactory"' }
+		}
+	}
+
   }
 }
