@@ -3,8 +3,12 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'echo "Hello World"'
+        sh 'echo "mvn clean install"'
+		sh 'echo "mvn clean test, component test" 
+		sh 'echo "mvn deploy" 
       }
+
+
     }
     stage('test') {
       parallel {
