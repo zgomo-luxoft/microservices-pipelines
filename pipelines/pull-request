@@ -59,7 +59,7 @@ pipeline {
 				} 
 			}
 			stage("package for lfs"){ steps {sh 'echo "pkg app git-lfs"'} }
-			stage("package for artefactory"){ sh 'echo "pkg for artefactory"' }
+			stage("package for artefactory"){ steps { sh 'echo "pkg for artefactory"' } } 
 		}
 	}
 
