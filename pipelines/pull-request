@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  when { branch '' }
+  when { branch '.*merge.*' }
   stages {
     stage('build') {
       steps {
