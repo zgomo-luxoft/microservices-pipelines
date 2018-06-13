@@ -1,12 +1,13 @@
 pipeline {
   agent any
-  when {
-      beforeAgent true
-	  changeRequest target: "integration"
-  } 
+  
 
   stages {
     stage('build') {
+		when {
+			  beforeAgent true
+			  changeRequest target: "integration"
+		  } 
       steps {
         sh 'echo "mvn clean install"'
 		sh 'echo "mvn clean test, component test"' 
