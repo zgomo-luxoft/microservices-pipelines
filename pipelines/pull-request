@@ -1,6 +1,10 @@
 pipeline {
   agent any
-  when { branch '.*merge.*' }
+  when {
+      beforeAgent true
+	  changeRequest target: "integration"
+  } 
+
   stages {
     stage('build') {
       steps {
@@ -20,7 +24,7 @@ pipeline {
         }
      }
     }
-   	stage('quality-checks'){
+	stage('quality-checks'){
 		parallel {
 			stage('static-code-analysis'){
 					steps{
@@ -45,7 +49,7 @@ pipeline {
 		}
 	
 	}
-  	stage('publish test results'){
+	stage('publish test results'){
 		parallel {
 			stage("publish-git-lfs"){ steps{ sh 'echo "publishing to git lfs"'} }
 			stage("publish-elastic-search"){ steps{ sh 'echo "publishing to ELK"'} }
