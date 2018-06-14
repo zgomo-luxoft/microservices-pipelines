@@ -1,15 +1,8 @@
 pipeline {
   agent any
-  
-
+  when { branch '.*merge.*' }
   stages {
     stage('build') {
-		when {
-		  	  beforeAgent true
-			  changeRequest target: "integration"
-		  }
-
- 
       steps {
         sh 'echo "mvn clean install"'
 		sh 'echo "mvn clean test, component test"' 
@@ -27,7 +20,7 @@ pipeline {
         }
      }
     }
-	stage('quality-checks'){
+   	stage('quality-checks'){
 		parallel {
 			stage('static-code-analysis'){
 					steps{
@@ -52,7 +45,7 @@ pipeline {
 		}
 	
 	}
-	stage('publish test results'){
+  	stage('publish test results'){
 		parallel {
 			stage("publish-git-lfs"){ steps{ sh 'echo "publishing to git lfs"'} }
 			stage("publish-elastic-search"){ steps{ sh 'echo "publishing to ELK"'} }
@@ -69,6 +62,61 @@ pipeline {
 			stage("package for lfs"){ steps {sh 'echo "pkg app git-lfs"'} }
 			stage("package for artefactory"){ steps { sh 'echo "pkg for artefactory"' } } 
 		}
+	}
+
+	stage('deploy-sandbox'){
+		stage('create sandbox environment'){
+			steps("create sandbox environment"){
+				sh 'echo "- create sandbox environment" '
+			}
+
+			steps("Predeployment Health Checks"){
+				sh 'echo "- pre deployment checks" '
+			}
+			steps("Application Installation") {
+
+				sh 'echo " - install application(s)" ' 
+			}
+			steps("Postdeployment Health Checks"){
+				sh 'echo "- post deployment checks" '
+			}
+
+
+		}
+	}
+
+	stage('release'){
+		steps("RELEASE new version"){
+			sh 'echo - sc start app-name VERSION'
+		}
+
+	}
+
+	stage("Quality Gate - Component Tests'){
+			steps{
+					sh 'echo COMPONENT TESTS - execute'
+				}
+	}
+
+
+
+	stage("Quality Gate - Performance Tests"){
+		steps{
+
+			sh 'echo PERFORMANCE tests" 
+		}
+	}
+
+	stage("Quality Gate - Regression Test Packs"){
+		steps{
+
+			sh 'echo regression test packs' 
+		}
+
+	}
+
+
+	
 	}
 
   }
