@@ -100,7 +100,7 @@ pipeline {
 
 	}
 
-	stage("Quality Gate - Component Tests'){
+	stage("Quality Gate - Component Tests"){
 			steps{
 					sh 'echo COMPONENT TESTS - execute'
 				}
