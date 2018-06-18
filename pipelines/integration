@@ -111,7 +111,7 @@ pipeline {
 	stage("Quality Gate - Performance Tests"){
 		steps{
 
-			sh 'echo PERFORMANCE tests" 
+			sh 'echo "PERFORMANCE tests" '
 		}
 	}
 
