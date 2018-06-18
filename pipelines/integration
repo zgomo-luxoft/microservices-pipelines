@@ -64,6 +64,15 @@ pipeline {
 		}
 	}
 
+	stage('publish'){
+		parallel{
+			stage("publish to lfs"){ steps {sh 'echo "pkg app git-lfs"'} }
+			stage("publish to artefactory"){ steps { sh 'echo "pkg for artefactory"' } } 
+		}
+	}
+
+
+
 	stage('deploy-sandbox'){
 		stage('create sandbox environment'){
 			steps("create sandbox environment"){
