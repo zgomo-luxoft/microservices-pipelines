@@ -73,24 +73,14 @@ pipeline {
 
 
 	stage('deploy-sandbox'){
-		stage('create sandbox environment'){
-			steps("create sandbox environment"){
+			steps{
 				sh 'echo "- create sandbox environment" '
-			}
-
-			steps("Predeployment Health Checks"){
 				sh 'echo "- pre deployment checks" '
-			}
-			steps("Application Installation") {
-
 				sh 'echo " - install application(s)" ' 
-			}
-			steps("Postdeployment Health Checks"){
 				sh 'echo "- post deployment checks" '
 			}
 
 
-		}
 	}
 
 	stage('release'){
